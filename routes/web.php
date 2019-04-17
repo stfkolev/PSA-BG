@@ -44,3 +44,13 @@ Route::get('/shot/{id}', 'ShotController@view')->name('shot.view');
 
 Route::post('/shots/add', 'ShotController@store')->name('shots.add');
 
+/*! Discussions */
+Route::get('/discussions', 'DiscussionController@index')->name('discussions');
+Route::get('/discussions/create', 'DiscussionController@create')->name('discussions.create');
+Route::get('/discussions/{category}/{discussion}', 'DiscussionController@show')->name('discussions.show');
+Route::post('/discussions', 'DiscussionController@store')->name('discussions.store');
+Route::post('/discussions/{category}/{discussion}/answers', 'AnswerController@store')->name('answers.store');
+
+/*! Categories */
+Route::get('/discussions/categories/add', 'CategoryController@create')->name('discussions.categories.create');
+Route::post('/discussions/categories', 'CategoryController@store')->name('discussions.categories.store');
