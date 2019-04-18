@@ -57,13 +57,18 @@ Route::get('/shot/{id}', 'ShotController@view')->name('shot.view');
 Route::get('/shot/{id}/like', 'ShotController@like')->name('shots.like');
 
 /*! Discussions */
-Route::get('/discussions', 'DiscussionController@index')->name('discussions');
-Route::get('/discussions/create', 'DiscussionController@create')->name('discussions.create');
-Route::post('/discussions', 'DiscussionController@store')->name('discussions.store');
-Route::get('/discussions/categories', 'CategoryController@index')->name('discussions.categories');
-Route::get('/discussions/{category}', 'DiscussionController@showByCategory')->name('discussions.showByCategory');
-Route::get('/discussions/{category}/{discussion}', 'DiscussionController@show')->name('discussions.show');
-Route::post('/discussions/{category}/{discussion}/answers', 'AnswerController@store')->name('answers.store');
+Route::group(['prefix' => 'discussions'], function() {
+    
+    Route::get('/', 'DiscussionController@index')->name('discussions');
+    Route::post('/', 'DiscussionController@store')->name('discussions.store');
+    Route::get('/create', 'DiscussionController@create')->name('discussions.create');
+    Route::get('/categories', 'CategoryController@index')->name('discussions.categories');
+    Route::get('/{category}', 'DiscussionController@showByCategory')->name('discussions.showByCategory');
+    Route::get('/{category}/{discussion}', 'DiscussionController@show')->name('discussions.show');
+    Route::post('/{category}/{discussion}/answers', 'AnswerController@store')->name('answers.store');
+
+    Route::get('/mine', 'DiscussionController@mine')->name('discussions.mine');
+});
 
 });
 
@@ -71,4 +76,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['role:admin']], function() {
     Route::get('/', 'AdminController@index')->name('admin');
     Route::get('/discussions/categories/add', 'CategoryController@create')->name('categories.add');
     Route::post('/discussions/categories/add', 'CategoryController@store')->name('categories.store');
+
+    Route::group(['prefix' => 'privileges'], function() {
+        Route::get('/', 'PrivilegeController@index')->name('privileges');
+        Route::post('/', 'PrivilegeController@store')->name('privileges.store');
+        Route::get('/add', 'PrivilegeController@create')->name('privileges.create');
+    });
 });

@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Discussion;
 use App\Category;
 
+use Auth;
+
 class DiscussionController extends Controller
 {
 
@@ -126,5 +128,11 @@ class DiscussionController extends Controller
     public function destroy(Discussion $discussion)
     {
         //
+    }
+
+    public function mine() {
+        $discussions = Discussion::where('user_id', '=', Auth::user()->id)->with('category')->get();
+
+        return view('discussions.mine', ['discussions' => $discussions]);
     }
 }

@@ -64,4 +64,12 @@ class User extends Authenticatable implements BannableContract
     public function replies() {
         return $this->hasMany('App\Reply');
     }
+
+    public function answers() {
+        return $this->hasMany('App\Answer');
+    }
+
+    public function discussions() {
+        return $this->hasMany('App\Discussion');
+    }
 }

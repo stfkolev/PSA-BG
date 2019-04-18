@@ -30,7 +30,7 @@ class UserController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
      public function index() {
-        $users = \App\User::all();
+        $users = \App\User::with('roles')->get();
 
         return view('members.index', ['users' => $users]);
      }
