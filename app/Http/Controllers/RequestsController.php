@@ -51,7 +51,7 @@ class RequestsController extends Controller
     public function look($id) {
         $request = \App\Requests::with('user')->with('replies')->find($id)->get();
 
-        return view('requests/view', ['request' => $request]);
+        return view('requests.view', ['request' => $request]);
     }
 
     public function reply($requestId, Request $request) {
@@ -73,5 +73,11 @@ class RequestsController extends Controller
         $reply->save();
 
         return back();
+    }
+
+    public function mine() {
+        $requests = \App\Requests::where('user_id', Auth::user()->id)->get();
+
+        return view('requests.mine', ['requests' => $requests]);
     }
 }

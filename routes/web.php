@@ -33,6 +33,13 @@ Route::get('/requests/view/{id}', 'RequestsController@look')->name('requests.vie
 Route::post('/requests/reply/{id}', 'RequestsController@reply')->name('requests.reply');
 
 /*! Profile */
+Route::group(['prefix' => 'my'], function() {
+    Route::get('/likes', 'ShotController@mylikes')->name('likes.mine');
+    Route::get('/shots', 'ShotController@mine')->name('shots.mine');
+    Route::get('/discussions', 'DiscussionController@mine')->name('discussions.mine');
+    Route::get('/requests', 'RequestsController@mine')->name('requests.mine');
+});
+
 Route::get('/profile/settings/avatar', 'UserController@avatar')->name('user');
 Route::post('/profile/settings/avatar', 'UserController@upload')->name('user.upload');
 
@@ -46,15 +53,19 @@ Route::get('/participants', 'UserController@index')->name('users');
 Route::get('/grantadmin', 'UserController@newRole')->name('grantadmin');
 
 /*! Shots */
-Route::get('/shots', 'ShotController@index')->name('shots');
-Route::get('/shots/add', function() {
-    return view('shots.add');
-})->name('shots.getAdd');
+Route::group(['prefix' => 'shots'], function() {
+        
+    Route::get('/', 'ShotController@index')->name('shots');
+    Route::get('/add', function() {
+        return view('shots.add');
+    })->name('shots.getAdd');
 
-Route::post('/shots/add', 'ShotController@store')->name('shots.add');
+    Route::post('/add', 'ShotController@store')->name('shots.add');
 
-Route::get('/shot/{id}', 'ShotController@view')->name('shot.view');
-Route::get('/shot/{id}/like', 'ShotController@like')->name('shots.like');
+    Route::get('/{id}', 'ShotController@view')->name('shots.view');
+    Route::get('/{id}/like', 'ShotController@like')->name('shots.like');
+
+});
 
 /*! Discussions */
 Route::group(['prefix' => 'discussions'], function() {
@@ -67,7 +78,6 @@ Route::group(['prefix' => 'discussions'], function() {
     Route::get('/{category}/{discussion}', 'DiscussionController@show')->name('discussions.show');
     Route::post('/{category}/{discussion}/answers', 'AnswerController@store')->name('answers.store');
 
-    Route::get('/mine', 'DiscussionController@mine')->name('discussions.mine');
 });
 
 });
@@ -81,5 +91,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['role:admin']], function() {
         Route::get('/', 'PrivilegeController@index')->name('privileges');
         Route::post('/', 'PrivilegeController@store')->name('privileges.store');
         Route::get('/add', 'PrivilegeController@create')->name('privileges.create');
+    });
+
+    Route::group(['prefix' => 'roles'], function() {
+        Route::get('/', 'RoleController@index')->name('roles');
+        Route::post('/', 'RoleController@store')->name('roles.store');
+        Route::get('/add', 'RoleController@create')->name('roles.create');
+        Route::get('/{id}/permissions', 'RoleController@permissions')->name('roles.permissions');
+        Route::post('/{id}', 'RoleController@storePermissions')->name('roles.storePermissions');
     });
 });

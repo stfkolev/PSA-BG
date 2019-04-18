@@ -5,36 +5,35 @@
         <div class="row">
             <div class="col-md-12 col-md-offset-2">
                 <div class="card">
-                    <div class="card-header">All privilegies</div>
+                <div class="card-header">Permissions for {{ $role->display_name }}</div>
 
                     <div class="card-body">
-                           
-                            <a href="{{ routes('privileges.create') }}" class="btn btn-primary row float-right">Add</a>
-                            
-                            <br>
-                            <br>
-
+                            <form method="POST" action="{{ route('roles.storePermissions', $role->id) }}">
+                                @csrf()
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
                                         <th>Privilege Display Name</th>
-                                        <th>Privilege Name</th>
-                                        <th>Description</th>
-                                        <th>Actions</th>
+                                        <th>Allow</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($privilegies as $privilege)
                                     <tr>
                                         <td>{{ $privilege->display_name}}</td>
-                                        <td>{{ $privilege->name }}</td>
-                                        <td>{{ $privilege->description }}</td>
-                                        <td>Delete</td>
+
+                                        <td>
+                                           
+                                                <input type="checkbox" name="role_privilegies[]" value="{{ $privilege->name }}" {{ $role->hasPermission($privilege->name) ? 'checked' : '' }}>
+                                           
+                                        </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
-                            </table>                            
-
+                            </table> 
+                            
+                            <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+                        </form>
                     </div>
                 </div>
             </div>

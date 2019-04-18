@@ -81,10 +81,10 @@
 
                                     <a class="dropdown-item" href="{{ route('profile') }}">Profile</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="{{ route('profile') }}">My shots</a>
-                                    <a class="dropdown-item" href="{{ route('profile') }}">My likes</a>
+                                    <a class="dropdown-item" href="{{ route('shots.mine') }}">My shots</a>
+                                    <a class="dropdown-item" href="{{ route('likes.mine') }}">My likes</a>
                                     <a class="dropdown-item" href="{{ route('discussions.mine') }}">My discussions</a>
-                                    <a class="dropdown-item" href="{{ route('profile') }}">My requests</a>
+                                    <a class="dropdown-item" href="{{ route('requests.mine') }}">My requests</a>
                                     @role('admin')
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{{ route('admin') }}">Administration</a>

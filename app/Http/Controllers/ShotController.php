@@ -54,9 +54,21 @@ class ShotController extends Controller
     }
 
     public function view($id) {
-        $shot = \App\Shot::with('user')->find($id)->get();
+        $shot = \App\Shot::where('id', $id)->with('user')->get();
         $currShot = \App\Shot::find($id);
 
-        return view('shots.view', ['shot' => $shot, 'userHasLiked' => Auth::user()->hasLiked($currShot)]);
+        return view('shots.view', ['shot' => $shot]);
+    }
+
+    public function mine() {
+        $shots = \App\Shot::where('user_id', Auth::user()->id)->get();
+        
+        return view('shots.mine', ['shots' => $shots]);
+    }
+
+    public function mylikes() {
+        $likes = Auth::user()->likedItems();
+
+        return view('shots.likes', ['likes' => $likes]);
     }
 }
