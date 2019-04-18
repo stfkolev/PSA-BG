@@ -32,10 +32,12 @@ class CategoryController extends Controller
             'description'  => 'required'
         ]);
 
-        $category = Category::create([
-            'name' => request('title'),
-            'description'  => request('description')
-        ]);
+        $category = new Category();
+        
+        $category->name = $request->title;
+        $category->description = $request->description;
+
+        $category->save();
 
         return redirect($category->path());
     }

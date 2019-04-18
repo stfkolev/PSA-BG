@@ -30,7 +30,9 @@ class UserController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
      public function index() {
+        $users = \App\User::all();
 
+        return view('members.index', ['users' => $users]);
      }
      
     public function avatar()
@@ -81,7 +83,7 @@ class UserController extends Controller
         if($id === Auth::user()->id)
             return redirect('/profile');
 
-        $user = \App\User::where('id', $id)->orWhere('customurl', $id)->with('requests')->with('shots')->with('replies')->get();
+        $user = \App\User::where('id', $id)->orWhere('customurl', $id)->with('requests')->with('shots')->with('replies')->with('answers')->get();
         
         return view('profile.user', ['user' => $user]);
     }

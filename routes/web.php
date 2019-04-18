@@ -39,6 +39,10 @@ Route::post('/profile/settings/avatar', 'UserController@upload')->name('user.upl
 Route::get('/profile', 'UserController@ownProfile')->name('profile');
 Route::get('/profile/{id}', 'UserController@profile')->name('profile.view');
 
+/*! Users */
+Route::get('/participants', 'UserController@index')->name('users');
+
+/*! Grant Admin */
 Route::get('/grantadmin', 'UserController@newRole')->name('grantadmin');
 
 /*! Shots */
@@ -57,6 +61,7 @@ Route::get('/discussions', 'DiscussionController@index')->name('discussions');
 Route::get('/discussions/create', 'DiscussionController@create')->name('discussions.create');
 Route::post('/discussions', 'DiscussionController@store')->name('discussions.store');
 Route::get('/discussions/categories', 'CategoryController@index')->name('discussions.categories');
+Route::get('/discussions/{category}', 'DiscussionController@showByCategory')->name('discussions.showByCategory');
 Route::get('/discussions/{category}/{discussion}', 'DiscussionController@show')->name('discussions.show');
 Route::post('/discussions/{category}/{discussion}/answers', 'AnswerController@store')->name('answers.store');
 

@@ -26,8 +26,9 @@ class DiscussionController extends Controller
     public function index()
     {
         $discussions = Discussion::latest()->with('category')->get();
+        $categories = \App\Category::all();
        
-        return view('discussions.index', ['discussions' => $discussions]);
+        return view('discussions.index', ['discussions' => $discussions, 'categories' => $categories]);
     }
 
      /**
@@ -77,6 +78,20 @@ class DiscussionController extends Controller
     public function show(Category $category, Discussion $discussion)
     {
         return view('discussions.show', ['discussion' => $discussion, 'category' => $category]);
+    }
+
+     /**
+     * Display the specified resource.
+     *
+     * @param  \App\Discussion  $discussion
+     * @return \Illuminate\Http\Response
+     */
+    public function showByCategory(Category $category)
+    {
+        $discussions = \App\Discussion::where('category_id', '=', $category->id)->get();
+        $categories = \App\Category::all();
+
+        return view('discussions.showByCategory', ['discussions' => $discussions, 'categories' => $categories, 'currentCategory' => $category->id]);
     }
 
     /**

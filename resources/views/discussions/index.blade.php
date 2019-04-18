@@ -3,27 +3,36 @@
 @section('content')
     <div class="container">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Discussions</div>
+            <div class="col-md-8">
+                <h3>Discussions</h3>
 
-                    <div class="panel-body">
-                        @foreach ($discussions as $discussion)
-                            <article>
-                                <h4>
-                                    <a href="{{ $discussion->path() }}">
-                                        {{ $discussion->title }}
-                                    </a>
-                                </h4>
-                                <div class="body">{{ $discussion->body }}</div>
-                                
-                                <div class="body"><b>Category: </b>{{ $discussion->category->name }}</div>
-                            </article>
+                <div class="card">
+                    @foreach ($discussions as $discussion)
+                    <article class="card-body">
+                        <h6 class="card-subtitle float-right">Created {{ $discussion->created_at->diffForHumans() }}</h6>
+                        <h4 class="card-title"> <a href="{{ $discussion->path() }}">{{ $discussion->title }}</a> </h4>
 
-                            <hr>
+                        <h5 class="card-text">{{ str_limit($discussion->body, 25) }}</h5>
+                        <h6 class="card-subtitle float-left"><b>Category: </b>{{ $discussion->category->name }}</h6>
+                        <br>
+                        <h6 class="card-subtitle">Answers: {{ $discussion->answers()->count() }}</h5>
+                    </article>
+                    <hr>
+                    @endforeach
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                    <h3>Categories</h3>
+
+                    <div class="list-group">
+                        <a href="/discussions" class="list-group-item list-group-item-action active">All</a>
+                        @foreach($categories as $category)
+                            <a href="/discussions/{{ $category->id }}" class="list-group-item list-group-item-action">
+                               {{ $category->name }}
+                            </a>
                         @endforeach
                     </div>
-                </div>
             </div>
         </div>
     </div>

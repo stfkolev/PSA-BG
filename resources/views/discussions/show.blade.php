@@ -3,21 +3,35 @@
 
 @section('content')
     <div class="container">
+        
+        <div class="row justify-content-left">
+            <a href="{{ url()->previous() }}">Back</a>
+        </div>
+        <br>
+
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        
-                        <a href="/profile/{{ isset($discussion->user->customurl) ? $discussion->user->customurl : $discussion->user->id }}">{{ $discussion->user->name }}</a> posted
-                        {{ $discussion->title }}
-                    </div>
+                <div class="card">
+                    <h4 class="card-header">{{ $discussion->title }}</h4>
 
-                    <div class="panel-body">
-                        {{ $discussion->body }}
-                    </div>
+                    <div class="card-body">
+                            <img src="{{ $discussion->user->avatar }}" alt="avatar" class="rounded card-subtitle" style="max-width:2rem;max-height: 2rem;">
+                            <a class="card-subtitle" href="/profile/{{ isset($discussion->user->customurl) ? $discussion->user->customurl : $discussion->user->id }}">{{ $discussion->user->name }}</a> posted
+                            
+                            <span class="card-subtitle float-right"> {{ $discussion->created_at->diffForHumans() }}</span>
+                        </div>
+    
+                        <div class="card-body">
+                            
+                            <div class="card-title">
+                                {{ $discussion->body }}
+                            </div>
+                        </div>
                 </div>
             </div>
         </div>
+
+        <br>
 
         <div class="row">
             <div class="col-md-8 col-md-offset-2">

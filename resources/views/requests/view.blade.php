@@ -24,8 +24,7 @@
                         <p>Topic: <strong>{{ $request[0]->topic }}</strong></p>
                         <p>More: <strong>{{ $request[0]->more }}</strong></p>
 
-                        <p>Posted by <a href="/profile/{{ isset($request[0]->user->customurl) ? $request[0]->user->customurl : $request[0]->user->id }}">{{ $request[0]->user->name }}</a> </p>
-                        <a href="/requests">Back</a>
+                        <p>Posted by <a href="/profile/{{ isset($request[0]->user->customurl) ? $request[0]->user->customurl : $request[0]->user->id }}">{{ $request[0]->user->name }}</a> - {{ $request[0]->created_at->diffForHumans() }} </p>
                     </div>
                 </div>
             </div>

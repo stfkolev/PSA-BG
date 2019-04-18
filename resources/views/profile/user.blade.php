@@ -24,7 +24,7 @@
                 <ul class="list-group list-group-flush">
                         <li class="list-group-item"><span class="float-left">Shots</span> <span class="float-right"> {{ count($user[0]->shots) }}</span></li>
                     <li class="list-group-item"><span class="float-left">Likes</span> <span class="float-right"> {{ $user[0]->likes()->count() }}</span></li>
-                    <li class="list-group-item">Topics</li>
+                    <li class="list-group-item">Discussions</li>
                     <li class="list-group-item"><span class="float-left">Requests</span> <span class="float-right"> {{ count($user[0]->requests) }}</span></li>
                     <li class="list-group-item"><span class="float-left">Replies</span> <span class="float-right"> {{ count($user[0]->replies) }} </span></li>
                 </ul>

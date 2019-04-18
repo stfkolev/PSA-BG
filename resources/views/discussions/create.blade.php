@@ -13,7 +13,13 @@
 
                             <div class="form-group">
                                 <label for="title">Title:</label>
-                                <input type="text" class="form-control" id="title" name="title">
+                                <input type="text" class="form-control{{ $errors->has('title') ? ' is-invalid' : '' }}" id="title" name="title">
+
+                                @if ($errors->has('title'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('title') }}</strong>
+                                    </span>
+                                @endif
                             </div>
 
                             <div class="form-group">
@@ -27,7 +33,13 @@
 
                             <div class="form-group">
                                 <label for="body">Body:</label>
-                                <textarea name="body" id="body" class="form-control" rows="8"></textarea>
+                                <textarea name="body" id="body" class="form-control{{ $errors->has('body') ? ' is-invalid' : '' }}" rows="8"></textarea>
+
+                                @if ($errors->has('body'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('body') }}</strong>
+                                    </span>
+                                @endif
                             </div>
 
                             <button type="submit" class="btn btn-primary">Publish</button>
