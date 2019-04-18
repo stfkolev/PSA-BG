@@ -12,6 +12,8 @@ use \App\Permission;
 
 use Auth;
 
+use Illuminate\Support\Facades\DB;
+
 class UserController extends Controller
 {
     /**
@@ -33,6 +35,12 @@ class UserController extends Controller
         $users = \App\User::with('roles')->get();
 
         return view('members.index', ['users' => $users]);
+     }
+
+     public function adminIndex() {
+        $users = \App\User::with('roles')->get();
+
+        return view('admin.users.index', ['users' => $users]);
      }
      
     public function avatar()
@@ -90,5 +98,34 @@ class UserController extends Controller
 
     public function newRole() {
        \App\Role::find(1)->attachPermission('manage-requests');
+    }
+
+    public function edit($id) {
+        $user = \App\User::find($id);
+
+        return view('admin.users.edit', ['user' => $user]);
+    }
+
+    public function save($id, Request $request) {
+        $this->validate($request, [
+            'name' => 'max:32|nullable',
+            'email' => 'max:32|nullable',
+            'password' => 'max:64|confirmed|nullable',
+            'description' => 'max:128|nullable',
+            'customurl' => 'max:10|nullable'
+        ]);
+
+        $user = \App\User::find($id);
+
+        $query = DB::table('users')->where('id', $id)
+                    ->update([
+                        'name' => isset($request->name) ?: $user->name,
+                        'email' => isset($request->email) ?: $user->email,
+                        'password' => isset($request->password) ? Hash::make($request->password) : $user->password,
+                        'description' => isset($request->description) ?: $user->description,
+                        'customurl' => $request->customurl ?: $user->customurl,
+                    ]);
+
+        return redirect(route('users.admin'));
     }
 }

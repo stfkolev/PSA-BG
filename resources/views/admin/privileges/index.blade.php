@@ -9,7 +9,7 @@
 
                     <div class="card-body">
                            
-                            <a href="{{ routes('privileges.create') }}" class="btn btn-primary row float-right">Add</a>
+                            <a href="{{ route('privileges.create') }}" class="btn btn-primary row float-right">Add</a>
                             
                             <br>
                             <br>

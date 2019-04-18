@@ -54,6 +54,10 @@
                         <li class="nav-item {{ Request::path() == 'requests' ? 'active' : ''}}">
                                 <a class="nav-link" href="{{ url('/requests') }}">Requests</a>
                         </li>
+
+                        <li class="nav-item {{ Request::path() == 'users' ? 'active' : ''}}">
+                                <a class="nav-link" href="{{ url('/users') }}">Users</a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

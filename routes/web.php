@@ -47,7 +47,7 @@ Route::get('/profile', 'UserController@ownProfile')->name('profile');
 Route::get('/profile/{id}', 'UserController@profile')->name('profile.view');
 
 /*! Users */
-Route::get('/participants', 'UserController@index')->name('users');
+Route::get('/users', 'UserController@index')->name('users');
 
 /*! Grant Admin */
 Route::get('/grantadmin', 'UserController@newRole')->name('grantadmin');
@@ -99,5 +99,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['role:admin']], function() {
         Route::get('/add', 'RoleController@create')->name('roles.create');
         Route::get('/{id}/permissions', 'RoleController@permissions')->name('roles.permissions');
         Route::post('/{id}', 'RoleController@storePermissions')->name('roles.storePermissions');
+    });
+
+    Route::group(['prefix' => 'users'], function() {
+        Route::get('/', 'UserController@adminIndex')->name('users.admin');
+        Route::get('/{id}/edit', 'UserController@edit')->name('users.edit');
+        Route::post('/{id}', 'UserController@save')->name('users.save');
     });
 });
