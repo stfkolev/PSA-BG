@@ -1,23 +1,21 @@
-    @extends('layouts.app')
+@extends('layouts.app')
 
 @section('content')
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Discussions</div>
+                    <div class="panel-heading">Categories</div>
 
                     <div class="panel-body">
-                        @foreach ($discussions as $discussion)
+                        @foreach ($categories as $category)
                             <article>
                                 <h4>
-                                    <a href="{{ $discussion->path() }}">
-                                        {{ $discussion->title }}
+                                    <a href="{{ $category->path() }}">
+                                        {{ $category->name }}
                                     </a>
                                 </h4>
-                                <div class="body">{{ $discussion->body }}</div>
-                                
-                                <div class="body"><b>Category: </b>{{ $discussion->category->name }}</div>
+                                <div class="body">{{ $category->description }}</div>
                             </article>
 
                             <hr>

@@ -7,9 +7,17 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 
-class User extends Authenticatable
+use Overtrue\LaravelLike\Traits\CanLike;
+
+use Cog\Contracts\Ban\Bannable as BannableContract;
+use Cog\Laravel\Ban\Traits\Bannable;
+use Laratrust\Traits\LaratrustUserTrait;
+
+class User extends Authenticatable implements BannableContract
 {
-    use Notifiable;
+    use LaratrustUserTrait;
+    
+    use CanLike, Bannable, Notifiable;
 
     /**
      * The attributes that are mass assignable.

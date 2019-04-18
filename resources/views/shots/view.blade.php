@@ -16,6 +16,10 @@
                     <h5 class="card-title">{{ $shot[0]->title }}</h5>
                     <p class="card-text"> {{ $shot[0]->description }}</p>
 
+                    @if(Auth::check())
+                        <a href="{{ route('shots.like', $shot[0]->id) }}" class="card-link float-left" @if( $userHasLiked == true) {{ 'style="color: #bb0000 !important;"'}} @endif> {{ !$userHasLiked ? 'Like' : 'Dislike' }} </a>
+                
+                    @endif
                     <a href="/profile/{{ isset($shot[0]->user->customurl) ? $shot[0]->user->customurl : $shot[0]->user->id }}" class="card-link float-right">{{ $shot[0]->user->name }}</a>
                 </div>
             </div>

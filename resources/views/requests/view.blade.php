@@ -34,12 +34,14 @@
 
     <br>
     @if($request[0]->user->id === Auth::user()->id)
+   
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <center><h5>You cannot reply to your own request!</h5></center>
             </div>
         </div>
     @else
+    @permission('manage-requests')
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -79,7 +81,7 @@
     </div>
 
     <br>
-
+    @endpermission
     @endif
 
     @foreach($request[0]->replies as $reply)

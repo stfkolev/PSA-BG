@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Discussion;
+use App\Category;
 
 class DiscussionController extends Controller
 {
@@ -24,7 +25,8 @@ class DiscussionController extends Controller
      */
     public function index()
     {
-        $discussions = Discussion::latest()->get();
+        $discussions = Discussion::latest()->with('category')->get();
+       
         return view('discussions.index', ['discussions' => $discussions]);
     }
 
@@ -35,7 +37,9 @@ class DiscussionController extends Controller
      */
     public function create()
     {
-        return view('discussions.create');
+        $categories = \App\Category::all();
+
+        return view('discussions.create', ['categories' => $categories]);
     }
 
     /**
@@ -49,15 +53,18 @@ class DiscussionController extends Controller
         $this->validate($request, [
             'title' => 'required',
             'body'  => 'required',
-            'category_id' => 'required|exists:categories,id'
+            'category_id' => 'required|exists:categories,name'
         ]);
+        
+        $category = \App\Category::where('name', '=', $request->category_id)->get();
 
         $discussion = Discussion::create([
             'user_id' => auth()->id(),
-            'category_id' => request('category_id'),
+            'category_id' => $category[0]->id,
             'title' => request('title'),
             'body'  => request('body')
         ]);
+
         return redirect($discussion->path());
     }
 
@@ -67,9 +74,9 @@ class DiscussionController extends Controller
      * @param  \App\Discussion  $discussion
      * @return \Illuminate\Http\Response
      */
-    public function show(\App\Category $category, Discussion $discussion)
+    public function show(Category $category, Discussion $discussion)
     {
-        return view('discussions.show', ['discussion' => $discussion]);
+        return view('discussions.show', ['discussion' => $discussion, 'category' => $category]);
     }
 
     /**
@@ -82,6 +89,7 @@ class DiscussionController extends Controller
     {
         //
     }
+
     /**
      * Update the specified resource in storage.
      *

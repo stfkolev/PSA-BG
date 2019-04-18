@@ -24,7 +24,7 @@ class Discussion extends Model
      * @return string
      */
     public function path() {
-        return '/discussions/'. $this->category->name . '/' . $this->id;
+        return '/discussions/'. $this->category->id . '/' . $this->id;
     }
 
     public function answers() {

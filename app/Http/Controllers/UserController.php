@@ -7,6 +7,8 @@ use \App\User;
 use \App\Requests;
 use \App\Shot;
 use \App\Reply;
+use \App\Role;
+use \App\Permission;
 
 use Auth;
 
@@ -70,6 +72,7 @@ class UserController extends Controller
         $requests = \App\Requests::findOrFail($user->id)::all();
         $shots = \App\Shot::findOrFail($user->id)::all();
         $replies = \App\Reply::findOrFail($user->id)::all();
+        
 
         return view('profile.index', ['user' => $user, 'requests' => $requests, 'shots' => $shots, 'replies' => $replies]);
     }
@@ -81,5 +84,9 @@ class UserController extends Controller
         $user = \App\User::where('id', $id)->orWhere('customurl', $id)->with('requests')->with('shots')->with('replies')->get();
         
         return view('profile.user', ['user' => $user]);
+    }
+
+    public function newRole() {
+       \App\Role::find(1)->attachPermission('manage-requests');
     }
 }

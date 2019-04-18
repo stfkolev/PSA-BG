@@ -8,7 +8,7 @@
                     <div class="panel-heading">Add new category</div>
 
                     <div class="panel-body">
-                        <form method="POST" action="/discussions">
+                        <form method="POST" action="/admin/discussions/categories/add">
                             {{ csrf_field() }}
 
                             <div class="form-group">
@@ -21,7 +21,7 @@
                                 <textarea name="Description" id="body" class="form-control" rows="8"></textarea>
                             </div>
 
-                            <button type="submit" class="btn btn-primary">Publish</button>
+                            <button type="submit" class="btn btn-primary">Add</button>
                         </form>
 
                     </div>

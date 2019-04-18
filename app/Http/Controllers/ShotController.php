@@ -42,9 +42,21 @@ class ShotController extends Controller
                 ->with('image', $imageName);
     }
 
+    public function like($id) {
+        $shot = \App\Shot::find($id);
+       
+        if(Auth::user()->hasLiked($shot))
+            Auth::user()->unlike($shot);
+        else
+            Auth::user()->like($shot);
+
+        return back();
+    }
+
     public function view($id) {
         $shot = \App\Shot::with('user')->find($id)->get();
+        $currShot = \App\Shot::find($id);
 
-        return view('shots.view', ['shot' => $shot]);
+        return view('shots.view', ['shot' => $shot, 'userHasLiked' => Auth::user()->hasLiked($currShot)]);
     }
 }

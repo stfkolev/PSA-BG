@@ -21,6 +21,9 @@
                             
                         </div>
                         <div class="card-body">
+                            @if(Auth::check())
+                                <a href="{{route('shots.like', $shot->id) }}" class="card-link float-left align-items-center">Like</a>
+                            @endif
                             <a href="/profile/{{ isset($shot->user->customurl) ? $shot->user->customurl : $shot->user->id }}" class="card-link float-right align-items-center">{{ $shot->user->name }}</a>
                         </div>
                     </div>
