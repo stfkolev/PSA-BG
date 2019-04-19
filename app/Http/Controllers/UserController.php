@@ -3,16 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+
 use \App\User;
 use \App\Requests;
 use \App\Shot;
 use \App\Reply;
 use \App\Role;
 use \App\Permission;
+use \App\Activity;
 
 use Auth;
-
-use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -82,9 +83,12 @@ class UserController extends Controller
         $requests = \App\Requests::findOrFail($user->id)::all();
         $shots = \App\Shot::findOrFail($user->id)::all();
         $replies = \App\Reply::findOrFail($user->id)::all();
-        
 
-        return view('profile.index', ['user' => $user, 'requests' => $requests, 'shots' => $shots, 'replies' => $replies]);
+        $activities = \App\Activity::feed($user);
+
+        //dd($activities);
+
+        return view('profile.index', ['user' => $user, 'requests' => $requests, 'shots' => $shots, 'replies' => $replies, 'activities' => $activities]);
     }
 
     public function profile($id) {
@@ -92,12 +96,14 @@ class UserController extends Controller
             return redirect('/profile');
 
         $user = \App\User::where('id', $id)->orWhere('customurl', $id)->with('requests')->with('shots')->with('replies')->with('answers')->get();
-        
-        return view('profile.user', ['user' => $user]);
+
+        $activities = \App\Activity::feed($user[0]);
+
+        return view('profile.user', ['user' => $user, 'activities' => $activities]);
     }
 
     public function newRole() {
-       \App\Role::find(1)->attachPermission('manage-requests');
+       dd(Hash::make('stef4o123'));
     }
 
     public function edit($id) {
@@ -108,24 +114,35 @@ class UserController extends Controller
 
     public function save($id, Request $request) {
         $this->validate($request, [
-            'name' => 'max:32|nullable',
-            'email' => 'max:32|nullable',
-            'password' => 'max:64|confirmed|nullable',
-            'description' => 'max:128|nullable',
-            'customurl' => 'max:10|nullable'
+            'name' => 'max:32',
+            'email' => 'max:32',
+            'password' => 'max:64|confirmed',
+            'description' => 'max:128',
+            'customurl' => 'max:10'
         ]);
 
         $user = \App\User::find($id);
 
-        $query = DB::table('users')->where('id', $id)
-                    ->update([
-                        'name' => isset($request->name) ?: $user->name,
-                        'email' => isset($request->email) ?: $user->email,
-                        'password' => isset($request->password) ? Hash::make($request->password) : $user->password,
-                        'description' => isset($request->description) ?: $user->description,
-                        'customurl' => $request->customurl ?: $user->customurl,
-                    ]);
+        // \App\User::where('id', $id)
+        //             ->update([
+        //                 'name' => isset($request->name) ?: $user->name,
+        //                 'email' => isset($request->email) ?: $user->email,
+        //                 'password' => isset($request->password) ? Hash::make($request->password) : $user->password,
+        //                 'description' => isset($request->description) ?: $user->description,
+        //                 'customurl' => $request->customurl ?: $user->customurl,
+        //             ]);
+
+        $user->name = !empty($request->input('name')) ? $request->input('name') : $user->name;
+        $user->email = !empty($request->input('email')) ? $request->input('email') : $user->email;
+        $user->password = !empty($request->input('password')) !== null ? Hash::make($request->input('password')) : $user->password;
+        $user->description = !empty($request->input('description')) !== null ? $request->input('description') : $user->description;
+        $user->customurl = !empty($request->input('customurl')) !== null ? $request->input('customurl') : $user->customurl;
+        
+        $user->save();
+
+        dd($user);
 
         return redirect(route('users.admin'));
     }
+
 }

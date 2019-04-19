@@ -25,7 +25,7 @@ class User extends Authenticatable implements BannableContract
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'description', 'customurl'
     ];
 
     /**
@@ -71,5 +71,14 @@ class User extends Authenticatable implements BannableContract
 
     public function discussions() {
         return $this->hasMany('App\Discussion');
+    }
+
+    public function activity()
+    {
+        return $this->hasMany('App\Activity');
+    }
+
+    public function lastAnswer() {
+        return $this->hasOne('App\Answer')->latest();
     }
 }

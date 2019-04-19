@@ -104,6 +104,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['role:admin']], function() {
     Route::group(['prefix' => 'users'], function() {
         Route::get('/', 'UserController@adminIndex')->name('users.admin');
         Route::get('/{id}/edit', 'UserController@edit')->name('users.edit');
-        Route::post('/{id}', 'UserController@save')->name('users.save');
+        Route::put('/{id}', 'UserController@save')->name('users.save');
     });
 });

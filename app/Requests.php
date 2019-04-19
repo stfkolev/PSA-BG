@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Requests extends Model
 {
+    use RecordsActivity;
+    
     protected $primaryKey = "id";
     
     /*! One Request may have many posts */

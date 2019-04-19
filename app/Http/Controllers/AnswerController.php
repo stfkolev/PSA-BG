@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 use App\Answer;
 use App\Discussion;
@@ -25,6 +26,12 @@ class AnswerController extends Controller
      */
     public function store(\App\Category $category, \App\Discussion $discussion)
     {
+        if (Gate::denies('create', new Answer)) {
+            return response(
+                'You are posting too frequently. Please take a break. :)', 429
+            );
+        }
+
         $this->validate(request(), ['body' => 'required']);
 
         $discussion->addAnswer([

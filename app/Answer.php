@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 use App\Discussion;
 use App\User;
@@ -33,5 +34,10 @@ class Answer extends Model
      */
     public function user() {
         return $this->belongsTo('App\User');
+    }
+
+    public function wasJustPublished()
+    {
+        return $this->created_at->gt(Carbon::now()->subMinute());
     }
 }

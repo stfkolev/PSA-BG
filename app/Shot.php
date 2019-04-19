@@ -9,7 +9,7 @@ use Overtrue\LaravelLike\Traits\CanBeLiked;
 
 class Shot extends Model
 {
-    use CanBeLiked;
+    use CanBeLiked, RecordsActivity;
 
     public function user() {
         return $this->belongsTo('App\User');
